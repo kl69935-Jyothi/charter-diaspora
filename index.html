@@ -1,1249 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charter Diaspora Shipping - Sea & Air Cargo Platform</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Charter Diaspora Shipping</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<script>
-  // Smooth-scroll to the hash target (after page switch)
-  function scrollToHash() {
-    const hash = window.location.hash;
-    if (!hash) return;
-    const el = document.querySelector(hash);
-    if (!el) return;
-    requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  }
-
-  // Wrap the existing showPage so it also scrolls when a hash is set
-  const _origShowPage = window.showPage;
-  window.showPage = function(id) {
-    _origShowPage(id);
-    scrollToHash();
-  };
-
-  // Handle back/forward when only the hash changes
-  window.addEventListener('hashchange', scrollToHash);
-</script>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="logo" onclick="showPage('home')">
-                🚢 Charter Diaspora Shipping
-            </div>
-            <div class="nav-links">
-                <!-- Section links (scroll on the same page) -->
-            <a href="#home" onclick="showPage('home')">Home</a>
-            <a href="#features">Services</a>
-            <a href="#resources">Resources</a>
-            <a href="#company">Company</a>
-            <a href="#contact">Contact</a>
-              <!-- App pages (keep or hide as you wish) -->
-                <a href="#" onclick="showPage('browse')">Browse Shipping</a>
-                <a href="#" onclick="showPage('list')">List Space</a>
-                <a href="#" onclick="showPage('dashboard')">Dashboard</a>
-                <a href="#" onclick="showPage('track')">Track Cargo</a>
-                <a href="#" class="btn btn-primary" id="signin-btn" onclick="showPage('signin')">Sign In</a>
-                <a href="#" class="btn btn-primary hidden" id="signout-btn" onclick="logout()">Sign Out</a>
-</div>
-            </div>
-            <!-- Profile / More menu trigger -->
-<div class="menu-wrapper">
-  <button class="menu-trigger" id="menu-trigger" aria-haspopup="true" aria-expanded="false">
-    <span class="menu-icon">☰</span>
-    <span class="menu-avatar">•</span>
-  </button>
 
-  <!-- Floating menu panel -->
-  <div class="menu-panel" id="menu-panel" role="menu" aria-hidden="true">
-    <div class="menu-section">
-      <a class="menu-item" href="help.html">Help Center</a>
-    </div>
-
-    <div class="menu-section">
-      <div class="menu-label">Hosting</div>
-      <a class="menu-item" href="#become-host" onclick="alert('Demo: Become a host'); return false;">Become a host</a>
-      <a class="menu-item" href="#find-cohost" onclick="alert('Demo: Find a co-host'); return false;">Find a co-host</a>
-      <a class="menu-item" href="#gift-cards" onclick="alert('Demo: Gift cards'); return false;">Gift cards</a>
-    </div>
-
-    <div class="menu-section">
-      <a class="menu-item" href="#login" onclick="showPage('signin'); return false;">Log in or sign up</a>
-    </div>
-  </div>
-</div>
-
-        </div>
-    </nav>
-
-    <!-- Home Page -->
-    <div id="home">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <h1>Ship to Africa & Beyond with Confidence</h1>
-                <p>Book container space or air cargo. Connect with verified agents. Track in real-time.</p>
-               
-                <div class="shipping-toggle">
-                    <button class="toggle-btn active" onclick="setShippingMethod('sea')" id="sea-toggle">
-                        🚢 Sea Shipping
-                    </button>
-                    <button class="toggle-btn" onclick="setShippingMethod('air')" id="air-toggle">
-                        ✈️ Air Cargo
-                    </button>
-                </div>
-
-                <div class="search-container">
-                    <div class="search-row">
-                        <select class="search-input" id="origin">
-                            <option value="">From (Origin)</option>
-                            <option value="New York">New York, USA</option>
-                            <option value="Paris">Paris, France</option>
-                            <option value="London">London, UK</option>
-                            <option value="Brussels">Brussels, Belgium</option>
-                            <option value="Hamburg">Hamburg, Germany</option>
-                        </select>
-                        <select class="search-input" id="destination">
-                            <option value="">To (Destination)</option>
-                            <option value="Dakar">Dakar, Senegal</option>
-                            <option value="Lagos">Lagos, Nigeria</option>
-                            <option value="Douala">Douala, Cameroon</option>
-                            <option value="Abidjan">Abidjan, Ivory Coast</option>
-                            <option value="Accra">Accra, Ghana</option>
-                        </select>
-                    </div>
-                    <div class="search-row">
-                        <input type="date" class="search-input" id="departure-date" placeholder="Departure Date">
-                        <input type="number" class="search-input" id="cargo-size" placeholder="Size (m³ or kg)">
-                    </div>
-                    <button class="btn btn-success" onclick="searchShipping()">Search Available Space</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section id="features" class="features">
-            <div class="container">
-                <h2>Why Choose Charter Diaspora?</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">💰</div>
-                        <h3>Best Prices</h3>
-                        <p>Share container space or book air cargo at competitive rates</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📍</div>
-                        <h3>Real-Time Tracking</h3>
-                        <p>GPS tracking for containers and flight updates for air cargo</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🛂</div>
-                        <h3>Customs Made Easy</h3>
-                        <p>Verified clearance agents and cost estimation tools</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🚚</div>
-                        <h3>Door-to-Door</h3>
-                        <p>Book trucks for final delivery from customs to your location</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🛡️</div>
-                        <h3>Cargo Insurance</h3>
-                        <p>Protect your shipment with comprehensive coverage options</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">⚡</div>
-                        <h3>Fast or Affordable</h3>
-                        <p>Choose sea shipping (3-6 weeks) or air cargo (3-7 days)</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📄</div>
-                        <h3>Document Management</h3>
-                        <p>Upload and manage all shipping documents in one place</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💳</div>
-                        <h3>Secure Payments</h3>
-                        <p>Multiple payment methods including mobile money</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Browse Page -->
-    <div id="browse-page" class="hidden">
-        <section class="listings-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Available Shipping Options</h2>
-                    <div class="filters">
-                        <button class="filter-btn active" onclick="filterListings('all', event)">All</button>
-                        <button class="filter-btn" onclick="filterListings('sea', event)">🚢 Sea</button>
-                        <button class="filter-btn" onclick="filterListings('air', event)">✈️ Air</button>
-
-                    </div>
-                </div>
-                <div class="listings-grid" id="listings-grid"></div>
-            </div>
-        </section>
-    </div>
-
-    <!-- List Space Page -->
-    <div id="list-page" class="hidden">
-        <section class="listings-section">
-            <div class="container">
-                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 800px; margin: 0 auto;">
-                    <h2 style="margin-bottom: 30px;">List Your Shipping Space</h2>
-                   
-                    <div class="shipping-toggle" style="margin-bottom: 30px;">
-                        <button class="toggle-btn active" onclick="setListingType('sea')" id="list-sea">
-                            🚢 Container Space
-                        </button>
-                        <button class="toggle-btn" onclick="setListingType('air')" id="list-air">
-                            ✈️ Air Cargo Space
-                        </button>
-                    </div>
-
-                    <form class="form-grid" onsubmit="submitListing(event)">
-                        <div class="two-col">
-                            <div class="form-group">
-                                <label>Origin Port/Airport *</label>
-                                <select required>
-                                    <option value="">Select origin...</option>
-                                    <option value="New York">New York</option>
-                                    <option value="Paris">Paris</option>
-                                    <option value="London">London</option>
-                                    <option value="Brussels">Brussels</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Destination Port/Airport *</label>
-                                <select required>
-                                    <option value="">Select destination...</option>
-                                    <option value="Dakar">Dakar</option>
-                                    <option value="Lagos">Lagos</option>
-                                    <option value="Douala">Douala</option>
-                                    <option value="Abidjan">Abidjan</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="two-col">
-                            <div class="form-group">
-                                <label>Departure Date *</label>
-                                <input type="date" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Arrival Date *</label>
-                                <input type="date" required>
-                            </div>
-                        </div>
-
-                        <div id="sea-fields">
-                            <div class="two-col">
-                                <div class="form-group">
-                                    <label>Container Type *</label>
-                                    <select>
-                                        <option>20ft Standard</option>
-                                        <option>40ft Standard</option>
-                                        <option>40ft High Cube</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Available Space (m³) *</label>
-                                    <input type="number" placeholder="e.g., 15" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Price per m³ ($) *</label>
-                                <input type="number" placeholder="e.g., 45" required>
-                            </div>
-                        </div>
-
-                        <div id="air-fields" class="hidden">
-                            <div class="two-col">
-                                <div class="form-group">
-                                    <label>Flight Number *</label>
-                                    <input type="text" placeholder="e.g., AF234">
-                                </div>
-                                <div class="form-group">
-                                    <label>Airline *</label>
-                                    <input type="text" placeholder="e.g., Air France">
-                                </div>
-                            </div>
-                            <div class="two-col">
-                                <div class="form-group">
-                                    <label>Available Weight (kg) *</label>
-                                    <input type="number" placeholder="e.g., 500">
-                                </div>
-                                <div class="form-group">
-                                    <label>Price per kg ($) *</label>
-                                    <input type="number" placeholder="e.g., 12">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Additional Details</label>
-                            <textarea rows="4" placeholder="Cargo restrictions, special handling, etc."></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-success">Publish Listing</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Track Page -->
-    <div id="track-page" class="hidden">
-        <section class="listings-section">
-            <div class="container">
-                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 800px; margin: 0 auto;">
-                    <h2 style="margin-bottom: 30px;">Track Your Cargo</h2>
-                   
-                    <div class="form-group">
-                        <label>Tracking Number</label>
-                        <input type="text" placeholder="Enter your tracking number" id="tracking-input">
-                    </div>
-                    <button class="btn btn-success" onclick="trackCargo()">Track Cargo</button>
-
-                    <div id="tracking-result" class="hidden" style="margin-top: 30px;">
-                        <div class="alert alert-info">
-                            <strong>Tracking ID:</strong> CDS-2025-1234<br>
-                            <strong>Status:</strong> In Transit<br>
-                            <strong>Current Location:</strong> Mediterranean Sea
-                        </div>
-
-                        <div class="progress-tracker">
-                            <div class="progress-step completed">
-                                <div class="progress-circle">✓</div>
-                                <div>Booked</div>
-                            </div>
-                            <div class="progress-step completed">
-                                <div class="progress-circle">✓</div>
-                                <div>Loaded</div>
-                            </div>
-                            <div class="progress-step completed">
-                                <div class="progress-circle">3</div>
-                                <div>In Transit</div>
-                            </div>
-                            <div class="progress-step">
-                                <div class="progress-circle">4</div>
-                                <div>Arrived</div>
-                            </div>
-                            <div class="progress-step">
-                                <div class="progress-circle">5</div>
-                                <div>Cleared</div>
-                            </div>
-                            <div class="progress-step">
-                                <div class="progress-circle">6</div>
-                                <div>Delivered</div>
-                            </div>
-                        </div>
-
-                        <div style="margin-top: 30px;">
-                            <h3>Shipment Timeline</h3>
-                            <div style="margin-top: 20px;">
-                                <div style="padding: 15px; border-left: 3px solid #10b981; margin-bottom: 15px; background: #f9fafb;">
-                                    <strong>Oct 10, 2025 - 14:30</strong><br>
-                                    Container loaded at New York Port
-                                </div>
-                                <div style="padding: 15px; border-left: 3px solid #10b981; margin-bottom: 15px; background: #f9fafb;">
-                                    <strong>Oct 11, 2025 - 08:00</strong><br>
-                                    Vessel departed - ETA: Oct 25, 2025
-                                </div>
-                                <div style="padding: 15px; border-left: 3px solid #3b82f6; background: #f0f9ff;">
-                                    <strong>Oct 15, 2025 - 12:00</strong><br>
-                                    Current position: Mediterranean Sea
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Dashboard Page -->
-    <div id="dashboard-page" class="hidden">
-        <section class="dashboard">
-            <div class="container">
-                <h2 style="margin-bottom: 30px;">Your Dashboard</h2>
-               
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">8</div>
-                        <div class="stat-label">Active Shipments</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">24</div>
-                        <div class="stat-label">Total Shipments</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">$12,450</div>
-                        <div class="stat-label">Total Revenue</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">4.9★</div>
-                        <div class="stat-label">Rating</div>
-                    </div>
-                </div>
-
-                <div style="background: white; padding: 30px; border-radius: 20px; margin-top: 30px;">
-                    <h3 style="margin-bottom: 20px;">Recent Shipments</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tracking ID</th>
-                                <th>Route</th>
-                                <th>Type</th>
-                                <th>Departure</th>
-                                <th>Status</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>CDS-2025-1234</td>
-                                <td>New York → Lagos</td>
-                                <td>🚢 Sea</td>
-                                <td>Oct 10, 2025</td>
-                                <td><span class="status-badge status-in-transit">In Transit</span></td>
-                                <td>$680</td>
-                            </tr>
-                            <tr>
-                                <td>CDS-2025-1235</td>
-                                <td>Paris → Dakar</td>
-                                <td>✈️ Air</td>
-                                <td>Oct 12, 2025</td>
-                                <td><span class="status-badge status-delivered">Delivered</span></td>
-                                <td>$1,200</td>
-                            </tr>
-                            <tr>
-                                <td>CDS-2025-1236</td>
-                                <td>London → Accra</td>
-                                <td>🚢 Sea</td>
-                                <td>Oct 8, 2025</td>
-                                <td><span class="status-badge status-pending">Pending Customs</span></td>
-                                <td>$540</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Booking Modal -->
-    <div id="booking-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title">Book Shipping Space</h2>
-                <span class="close-modal" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="tabs">
-                    <div class="tab active" onclick="switchTab('booking')">📦 Booking Details</div>
-                    <div class="tab" onclick="switchTab('customs')">🛂 Customs & Agents</div>
-                    <div class="tab" onclick="switchTab('delivery')">🚚 Final Delivery</div>
-                    <div class="tab" onclick="switchTab('payment')">💳 Payment</div>
-                </div>
-
-                <!-- Booking Tab -->
-                <div id="booking-tab" class="tab-content active">
-                    <div id="listing-details"></div>
-                   
-                    <div class="form-grid" style="margin-top: 30px;">
-                        <div class="form-group">
-                            <label>Cargo Description *</label>
-                            <input type="text" placeholder="e.g., Household items, Electronics, etc.">
-                        </div>
-                       
-                        <div class="two-col">
-                            <div class="form-group">
-                                <label id="cargo-label">Cargo Volume (m³) *</label>
-                                <input type="number" id="cargo-volume" placeholder="e.g., 5" onchange="calculateCosts()">
-                            </div>
-                            <div class="form-group">
-                                <label>Estimated Weight (kg)</label>
-                                <input type="number" id="cargo-weight" placeholder="e.g., 200">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Special Requirements</label>
-                            <textarea rows="3" placeholder="Fragile items, temperature control, etc."></textarea>
-                        </div>
-
-                        <div class="insurance-options">
-                            <h3>Cargo Insurance (Optional)</h3>
-                            <div class="insurance-card" onclick="selectInsurance('basic', event)">
-                                <h4>Basic Coverage - $50</h4>
-                                <p>Up to $5,000 cargo value</p>
-                            </div>
-                            <div class="insurance-card" onclick="selectInsurance('premium', event)">
-                                <h4>Premium Coverage - $120</h4>
-                                <p>Up to $15,000 cargo value + priority claims</p>
-                            </div>
-                            <div class="insurance-card selected" onclick="selectInsurance('none', event)">
-                                <h4>No Insurance</h4>
-                                <p>I'll handle insurance separately</p>
-                            </div>
-                        </div>
-
-                        <div class="cost-estimator">
-                            <h3>Cost Breakdown</h3>
-                            <div class="cost-row">
-                                <span>Shipping Cost</span>
-                                <span id="shipping-cost">$0</span>
-                            </div>
-                            <div class="cost-row">
-                                <span>Insurance</span>
-                                <span id="insurance-cost">$0</span>
-                            </div>
-                            <div class="cost-row">
-                                <span>Service Fee (8%)</span>
-                                <span id="service-fee">$0</span>
-                            </div>
-                            <div class="cost-row total">
-                                <span>Total</span>
-                                <span id="total-cost">$0</span>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-success" onclick="switchTab('customs')">Continue to Customs →</button>
-                    </div>
-                </div>
-
-                <!-- Customs Tab -->
-                <div id="customs-tab" class="tab-content">
-                    <h3>Select Clearance Agent</h3>
-                    <p style="color: #6b7280; margin-bottom: 20px;">Choose a verified customs clearance agent at your destination</p>
-                   
-                    <div class="agent-card selected" onclick="selectAgent(1, event)">
-                        <div class="agent-header">
-                            <div class="agent-name">Swift Customs Services</div>
-                            <span class="verified-badge">✓ Verified</span>
-                        </div>
-                        <div class="agent-info">
-                            <span>⭐ 4.9 (234 reviews)</span>
-                            <span>📍 Lagos, Nigeria</span>
-                            <span>💰 $150 processing fee</span>
-                            <span>⚡ 2-3 days clearance</span>
-                        </div>
-                    </div>
-
-                    <div class="agent-card" onclick="selectAgent(2, event)">
-                        <div class="agent-header">
-                            <div class="agent-name">Express Clearing Ltd</div>
-                            <span class="verified-badge">✓ Verified</span>
-                        </div>
-                        <div class="agent-info">
-                            <span>⭐ 4.7 (189 reviews)</span>
-                            <span>📍 Lagos, Nigeria</span>
-                            <span>💰 $180 processing fee</span>
-                            <span>⚡ 1-2 days clearance</span>
-                        </div>
-                    </div>
-
-                    <div class="cost-estimator" style="margin-top: 30px;">
-                        <h3>Estimated Customs Costs</h3>
-                        <div class="alert alert-info">
-                            These are estimates based on your cargo information. Actual costs may vary.
-                        </div>
-                        <div class="cost-row">
-                            <span>Import Duty (estimated)</span>
-                            <span>$280</span>
-                        </div>
-                        <div class="cost-row">
-                            <span>VAT (estimated)</span>
-                            <span>$120</span>
-                        </div>
-                        <div class="cost-row">
-                            <span>Agent Processing Fee</span>
-                            <span id="agent-fee">$150</span>
-                        </div>
-                        <div class="cost-row total">
-                            <span>Total Customs Est.</span>
-                            <span>$550</span>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 15px; margin-top: 20px;">
-                        <button class="btn btn-secondary" onclick="switchTab('booking')" style="flex: 1;">← Back</button>
-                        <button class="btn btn-success" onclick="switchTab('delivery')" style="flex: 2;">Continue to Delivery →</button>
-                    </div>
-                </div>
-
-                <!-- Delivery Tab -->
-                <div id="delivery-tab" class="tab-content">
-                    <h3>Final Delivery Options</h3>
-                    <p style="color: #6b7280; margin-bottom: 20px;">Book a truck to transport your cargo from customs to your location</p>
-                   
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label>Delivery Address *</label>
-                        <input type="text" placeholder="Enter full delivery address">
-                    </div>
-
-                    <div class="truck-card selected" onclick="selectTruck(1, event)">
-                        <div class="truck-header">
-                            <div>
-                                <div style="font-weight: bold; font-size: 18px;">Small Truck (2 tons)</div>
-                                <div style="color: #6b7280; font-size: 14px; margin-top: 5px;">Perfect for small shipments</div>
-                            </div>
-                            <div class="price">$80</div>
-                        </div>
-                        <div style="margin-top: 10px; color: #6b7280; font-size: 14px;">
-                            ⭐ 4.8 rating • 🚚 Available now • ⏱️ Same-day delivery
-                        </div>
-                    </div>
-
-                    <div class="truck-card" onclick="selectTruck(2, event)">
-                        <div class="truck-header">
-                            <div>
-                                <div style="font-weight: bold; font-size: 18px;">Medium Truck (5 tons)</div>
-                                <div style="color: #6b7280; font-size: 14px; margin-top: 5px;">Most popular choice</div>
-                            </div>
-                            <div class="price">$120</div>
-                        </div>
-                        <div style="margin-top: 10px; color: #6b7280; font-size: 14px;">
-                            ⭐ 4.9 rating • 🚚 Available in 2 days • ⏱️ Next-day delivery
-                        </div>
-                    </div>
-
-                    <div class="truck-card" onclick="selectTruck(3, event)">
-                        <div class="truck-header">
-                            <div>
-                                <div style="font-weight: bold; font-size: 18px;">Large Truck (10 tons)</div>
-                                <div style="color: #6b7280; font-size: 14px; margin-top: 5px;">For big shipments</div>
-                            </div>
-                            <div class="price">$200</div>
-                        </div>
-                        <div style="margin-top: 10px; color: #6b7280; font-size: 14px;">
-                            ⭐ 4.7 rating • 🚚 Available in 3 days • ⏱️ Scheduled delivery
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 15px; margin-top: 20px;">
-                        <button class="btn btn-secondary" onclick="switchTab('customs')" style="flex: 1;">← Back</button>
-                        <button class="btn btn-success" onclick="switchTab('payment')" style="flex: 2;">Continue to Payment →</button>
-                    </div>
-                </div>
-
-                <!-- Payment Tab -->
-                <div id="payment-tab" class="tab-content">
-                    <h3>Complete Your Booking</h3>
-                   
-                    <div class="cost-estimator">
-                        <h3>Final Cost Summary</h3>
-                        <div class="cost-row">
-                            <span>Shipping Cost</span>
-                            <span id="final-shipping">$0</span>
-                        </div>
-                        <div class="cost-row">
-                            <span>Insurance</span>
-                            <span id="final-insurance">$0</span>
-                        </div>
-                        <div class="cost-row">
-                            <span>Service Fee</span>
-                            <span id="final-service">$0</span>
-                        </div>
-                        <div class="cost-row">
-                            <span>Estimated Customs</span>
-                            <span>$550</span>
-                        </div>
-                        <div class="cost-row">
-                            <span>Final Delivery</span>
-                            <span id="final-delivery">$80</span>
-                        </div>
-                        <div class="cost-row total">
-                            <span>Grand Total</span>
-                            <span id="grand-total">$0</span>
-                        </div>
-                    </div>
-
-                    <div class="form-grid" style="margin-top: 30px;">
-                        <div class="form-group">
-                            <label>Payment Method *</label>
-                            <select>
-                                <option>Credit/Debit Card (Stripe)</option>
-                                <option>Mobile Money</option>
-                                <option>Bank Transfer</option>
-                                <option>PayPal</option>
-                            </select>
-                        </div>
-
-                        <div class="alert alert-info">
-                            <strong>Payment Protection:</strong> Your payment is held securely until your cargo is loaded. Customs costs will be collected separately when clearing.
-                        </div>
-
-                        <div style="display: flex; gap: 15px;">
-                            <button class="btn btn-secondary" onclick="switchTab('delivery')" style="flex: 1;">← Back</button>
-                            <button class="btn btn-success" onclick="confirmBooking()" style="flex: 2;">Confirm & Pay</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Charter Diaspora</h4>
-                    <p>Connecting diaspora communities worldwide with affordable, transparent shipping solutions.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Services</h4>
-                    <a href="index.html#sea">Sea Container Shipping</a>
-                    <a href="index.html#air">Air Cargo Services</a>
-                    <a href="index.html#customs">Customs Clearance</a>
-                    <a href="index.html#final">Final Delivery</a>
-                </div>
-                <div class="footer-section">
-  <h4>Resources</h4>
-  <a href="index.html#calculator">Shipping Calculator</a>
-  <a href="index.html#guide">Customs Guide</a>
-  <a href="index.html#track">Track Cargo</a>
-  <a href="help.html">Help Center</a>
-</div>
-
-<div class="footer-section">
-  <h4>Company</h4>
-  <a href="about.html">About Us</a>
-  <a href="index.html#contact">Contact</a>
-  <a href="terms.html">Terms of Service</a>
-  <a href="privacy.html">Privacy Policy</a>
-</div>
-
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Charter Diaspora Shipping by Octopus Inc. All rights reserved. Confidential & Proprietary.</p>
-            </div>
-        </div>
-        <!-- ========= Company Sections (inside #home-page) ========= -->
-<section id="about" class="container" style="max-width:900px; margin:60px auto;">
-  <h2>About Us</h2>
-  <p>We help diaspora communities move goods reliably by sea and air. Transparent pricing, verified agents, and real-time updates.</p>
-</section>
-
-<section id="contact" class="container" style="max-width:900px; margin:60px auto;">
-  <h2>Contact</h2>
-  <p>Email: support@charterdiaspora.example • WhatsApp: +1-555-123-4567</p>
-</section>
-
-<section id="terms" class="container" style="max-width:900px; margin:60px auto;">
-  <h2>Terms of Service</h2>
-  <p>Summary of your terms… (replace with your real content).</p>
-</section>
-
-<section id="privacy" class="container" style="max-width:900px; margin:60px auto;">
-  <h2>Privacy Policy</h2>
-  <p>How we handle data… (replace with your real content).</p>
-</section>
-
-    </footer>
-
-    <script>
-        // Sample listings data
-        const listings = [
-            {
-                id: 1,
-                type: 'sea',
-                origin: 'New York',
-                destination: 'Lagos',
-                departure: 'Oct 20, 2025',
-                arrival: 'Nov 8, 2025',
-                transit: '18 days',
-                container: '40ft Standard',
-                available: 15,
-                price: 45,
-                unit: 'm³',
-                rating: 4.8,
-                reviews: 32,
-                carrier: 'Maersk Line'
-            },
-            {
-                id: 2,
-                type: 'air',
-                origin: 'Paris',
-                destination: 'Dakar',
-                departure: 'Oct 18, 2025',
-                arrival: 'Oct 19, 2025',
-                transit: '1 day',
-                flight: 'AF234',
-                airline: 'Air France',
-                available: 500,
-                price: 12,
-                unit: 'kg',
-                rating: 4.9,
-                reviews: 45
-            },
-            {
-                id: 3,
-                type: 'sea',
-                origin: 'London',
-                destination: 'Accra',
-                departure: 'Oct 22, 2025',
-                arrival: 'Nov 12, 2025',
-                transit: '21 days',
-                container: '20ft Standard',
-                available: 8,
-                price: 50,
-                unit: 'm³',
-                rating: 4.7,
-                reviews: 28,
-                carrier: 'MSC Shipping'
-            },
-            {
-                id: 4,
-                type: 'air',
-                origin: 'Brussels',
-                destination: 'Abidjan',
-                departure: 'Oct 19, 2025',
-                arrival: 'Oct 20, 2025',
-                transit: '1 day',
-                flight: 'SN215',
-                airline: 'Brussels Airlines',
-                available: 350,
-                price: 13,
-                unit: 'kg',
-                rating: 4.8,
-                reviews: 38
-            },
-            {
-                id: 5,
-                type: 'sea',
-                origin: 'Hamburg',
-                destination: 'Douala',
-                departure: 'Oct 25, 2025',
-                arrival: 'Nov 15, 2025',
-                transit: '21 days',
-                container: '40ft High Cube',
-                available: 20,
-                price: 42,
-                unit: 'm³',
-                rating: 4.9,
-                reviews: 41,
-                carrier: 'CMA CGM'
-            },
-            {
-                id: 6,
-                type: 'air',
-                origin: 'London',
-                destination: 'Lagos',
-                departure: 'Oct 17, 2025',
-                arrival: 'Oct 18, 2025',
-                transit: '1 day',
-                flight: 'BA075',
-                airline: 'British Airways',
-                available: 600,
-                price: 11,
-                unit: 'kg',
-                rating: 4.7,
-                reviews: 52
-            }
-        ];
-
-        let currentShippingMethod = 'sea';
-        let currentListingType = 'sea';
-        let selectedListing = null;
-        let selectedInsurance = 'none';
-        let selectedAgent = 1;
-        let selectedTruck = 1;
-
-        // Initialize
-        window.onload = function() {
-            displayListings();
-        };
-
-        function setShippingMethod(method) {
-            currentShippingMethod = method;
-            document.getElementById('sea-toggle').classList.remove('active');
-            document.getElementById('air-toggle').classList.remove('active');
-            document.getElementById(method + '-toggle').classList.add('active');
-        }
-
-        function setListingType(type) {
-            currentListingType = type;
-            document.getElementById('list-sea').classList.remove('active');
-            document.getElementById('list-air').classList.remove('active');
-            document.getElementById('list-' + type).classList.add('active');
-           
-            document.getElementById('sea-fields').classList.toggle('hidden', type !== 'sea');
-            document.getElementById('air-fields').classList.toggle('hidden', type !== 'air');
-        }
-
-        function searchShipping() {
-            showPage('browse');
-        }
-
-        function displayListings(filter = 'all') {
-            const grid = document.getElementById('listings-grid');
-            const filtered = filter === 'all' ? listings : listings.filter(l => l.type === filter);
-           
-            grid.innerHTML = filtered.map(listing => `
-                <div class="listing-card" onclick="openBookingModal(${listing.id})">
-                    <div class="listing-header">
-                        <div class="route">
-                            ${listing.origin} → ${listing.destination}
-                        </div>
-                        <span class="shipping-badge badge-${listing.type}">
-                            ${listing.type === 'sea' ? '🚢 Sea' : '✈️ Air'}
-                        </span>
-                    </div>
-                    <div class="listing-body">
-                        <div class="listing-info">
-                            <div class="info-item">
-                                <span>📅</span>
-                                <div><strong>Departs:</strong> ${listing.departure}</div>
-                            </div>
-                            <div class="info-item">
-                                <span>⏱️</span>
-                                <div><strong>Transit:</strong> ${listing.transit}</div>
-                            </div>
-                            ${listing.type === 'sea' ? `
-                                <div class="info-item">
-                                    <span>📦</span>
-                                    <div><strong>Container:</strong> ${listing.container}</div>
-                                </div>
-                                <div class="info-item">
-                                    <span>📏</span>
-                                    <div><strong>Available:</strong> ${listing.available} m³</div>
-                                </div>
-                            ` : `
-                                <div class="info-item">
-                                    <span>✈️</span>
-                                    <div><strong>Flight:</strong> ${listing.flight}</div>
-                                </div>
-                                <div class="info-item">
-                                    <span>⚖️</span>
-                                    <div><strong>Available:</strong> ${listing.available} kg</div>
-                                </div>
-                            `}
-                        </div>
-                        <div class="price-section">
-                            <div>
-                                <div class="price">$${listing.price}</div>
-                                <div class="price-unit">per ${listing.unit}</div>
-                            </div>
-                            <div class="rating">
-                                ⭐ ${listing.rating} (${listing.reviews})
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function filterListings(type) {
-            displayListings(type);
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        function openBookingModal(id) {
-            selectedListing = listings.find(l => l.id === id);
-            const modal = document.getElementById('booking-modal');
-           
-            document.getElementById('modal-title').textContent = `${selectedListing.origin} → ${selectedListing.destination}`;
-           
-            const detailsHtml = `
-                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; border: 2px solid #3b82f6;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h3>${selectedListing.origin} → ${selectedListing.destination}</h3>
-                        <span class="shipping-badge badge-${selectedListing.type}">
-                            ${selectedListing.type === 'sea' ? '🚢 Sea Shipping' : '✈️ Air Cargo'}
-                        </span>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; color: #1f2937;">
-                        <div>📅 <strong>Departure:</strong> ${selectedListing.departure}</div>
-                        <div>🎯 <strong>Arrival:</strong> ${selectedListing.arrival}</div>
-                        <div>⏱️ <strong>Transit Time:</strong> ${selectedListing.transit}</div>
-                        <div>💰 <strong>Price:</strong> $${selectedListing.price}/${selectedListing.unit}</div>
-                        ${selectedListing.type === 'sea' ? `
-                            <div>📦 <strong>Container:</strong> ${selectedListing.container}</div>
-                            <div>🚢 <strong>Carrier:</strong> ${selectedListing.carrier}</div>
-                        ` : `
-                            <div>✈️ <strong>Flight:</strong> ${selectedListing.flight}</div>
-                            <div>🛫 <strong>Airline:</strong> ${selectedListing.airline}</div>
-                        `}
-                    </div>
-                </div>
-            `;
-           
-            document.getElementById('listing-details').innerHTML = detailsHtml;
-           
-            // Update label based on shipping type
-            document.getElementById('cargo-label').textContent = selectedListing.type === 'sea' ?
-                'Cargo Volume (m³) *' : 'Cargo Weight (kg) *';
-           
-            switchTab('booking');
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('booking-modal').classList.remove('active');
-        }
-
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-           
-            event?.target?.classList.add('active');
-            document.getElementById(tabName + '-tab').classList.add('active');
-        }
-
-        function calculateCosts() {
-            if (!selectedListing) return;
-           
-            const volume = parseFloat(document.getElementById('cargo-volume').value) || 0;
-            const shippingCost = volume * selectedListing.price;
-            const insuranceCost = selectedInsurance === 'basic' ? 50 : selectedInsurance === 'premium' ? 120 : 0;
-            const serviceFee = shippingCost * 0.08;
-            const total = shippingCost + insuranceCost + serviceFee;
-           
-            document.getElementById('shipping-cost').textContent = `$${shippingCost.toFixed(2)}`;
-            document.getElementById('insurance-cost').textContent = `$${insuranceCost}`;
-            document.getElementById('service-fee').textContent = `$${serviceFee.toFixed(2)}`;
-            document.getElementById('total-cost').textContent = `$${total.toFixed(2)}`;
-           
-            // Update final costs
-            document.getElementById('final-shipping').textContent = `$${shippingCost.toFixed(2)}`;
-            document.getElementById('final-insurance').textContent = `$${insuranceCost}`;
-            document.getElementById('final-service').textContent = `$${serviceFee.toFixed(2)}`;
-           
-            const deliveryCost = selectedTruck === 1 ? 80 : selectedTruck === 2 ? 120 : 200;
-            document.getElementById('final-delivery').textContent = `$${deliveryCost}`;
-           
-            const grandTotal = total + 550 + deliveryCost; // 550 is customs estimate
-            document.getElementById('grand-total').textContent = `$${grandTotal.toFixed(2)}`;
-        }
-
-        function selectInsurance(type, ev) {
-  selectedInsurance = type;
-  document.querySelectorAll('.insurance-card').forEach(c => c.classList.remove('selected'));
-  if (ev && ev.currentTarget) ev.currentTarget.classList.add('selected');
-  calculateCosts();
-}
-
-function selectAgent(id, ev) {
-  selectedAgent = id;
-  document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('selected'));
-  if (ev && ev.currentTarget) ev.currentTarget.classList.add('selected');
-  const fee = id === 1 ? 150 : 180;
-  document.getElementById('agent-fee').textContent = `$${fee}`;
-}
-
-function selectTruck(id, ev) {
-  selectedTruck = id;
-  document.querySelectorAll('.truck-card').forEach(c => c.classList.remove('selected'));
-  if (ev && ev.currentTarget) ev.currentTarget.classList.add('selected');
-  calculateCosts();
-}
-
-
-        function confirmBooking() {
-            alert('🎉 Booking Confirmed!\n\nYour shipment has been booked successfully.\nTracking ID: CDS-2025-' + Math.floor(Math.random() * 9000 + 1000) + '\n\nYou will receive a confirmation email with all details shortly.');
-            closeModal();
-            showPage('dashboard');
-        }
-
-        function submitListing(e) {
-            e.preventDefault();
-            alert('✅ Listing Published!\n\nYour shipping space has been listed successfully. You\'ll start receiving booking requests soon.');
-            showPage('dashboard');
-        }
-
-        function trackCargo() {
-            document.getElementById('tracking-result').classList.remove('hidden');
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('booking-modal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-    </script>
-    <!-- ================= Sign In Page ================= -->
-<div id="signin-page" class="page hidden">
-  <section class="container auth">
-    <h2>Sign In</h2>
-    <form id="signin-form" onsubmit="return handleSignin(event)">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="signin-email" required />
+  <!-- ====== NAVBAR ====== -->
+  <nav class="nav">
+    <div class="container nav-row">
+      <a class="brand" href="index.html">
+        <span class="brand-emoji">🚢</span>
+        <span class="brand-text">Charter Diaspora<br/>Shipping</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#features">Services</a>
+        <a href="index.html#resources">Resources</a>
+        <a href="about.html">Company</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#browse" data-goto="browse">Browse Shipping</a>
+        <a href="index.html#list" data-goto="list">List Space</a>
+        <a href="index.html#dashboard" data-goto="dashboard">Dashboard</a>
+        <a href="index.html#track" data-goto="track">Track Cargo</a>
       </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="signin-password" required />
+
+      <!-- Airbnb-like “More” menu (replaces the Sign Out pill) -->
+      <div class="menu-wrapper">
+        <button id="menu-trigger" class="menu-trigger" aria-haspopup="true" aria-expanded="false" aria-label="Open menu">
+          <span class="menu-icon">☰</span>
+          <span class="menu-avatar">•••</span>
+        </button>
+
+        <div id="menu-panel" class="menu-panel" role="menu" aria-hidden="true">
+          <div class="menu-section">
+            <a class="menu-item" href="help.html">Help Center</a>
+          </div>
+
+          <div class="menu-section">
+            <div class="menu-label">Hosting</div>
+            <a class="menu-item" href="#" onclick="alert('Demo: Become a host'); return false;">Become a host</a>
+            <a class="menu-item" href="#" onclick="alert('Demo: Find a co-host'); return false;">Find a co-host</a>
+            <a class="menu-item" href="#" onclick="alert('Demo: Gift cards'); return false;">Gift cards</a>
+          </div>
+
+          <div class="menu-section">
+            <a class="menu-item" href="index.html#signin" onclick="showToast('Use the demo Sign In screen'); return false;">Log in or sign up</a>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-primary" type="submit">Sign In</button>
-      <p class="hint">No account? <a href="#" onclick="showPage('signup')">Create one</a></p>
-    </form>
+    </div>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <header id="home" class="hero">
+    <div class="container">
+      <h1 class="hero-title">Ship to Africa &amp; Beyond with Confidence</h1>
+      <p class="hero-sub">Book container space or air cargo. Connect with verified agents. Track in real-time.</p>
+
+      <div class="toggle">
+        <button id="seaBtn" class="toggle-btn active" aria-pressed="true">🚢 Sea Shipping</button>
+        <button id="airBtn" class="toggle-btn" aria-pressed="false">✈️ Air Cargo</button>
+      </div>
+
+      <div class="search-card">
+        <div class="search-row">
+          <select class="input">
+            <option value="">From (Origin)</option>
+            <option>New York, USA</option>
+            <option>Paris, France</option>
+            <option>London, UK</option>
+            <option>Brussels, Belgium</option>
+            <option>Hamburg, Germany</option>
+          </select>
+          <select class="input">
+            <option value="">To (Destination)</option>
+            <option>Dakar, Senegal</option>
+            <option>Lagos, Nigeria</option>
+            <option>Douala, Cameroon</option>
+            <option>Abidjan, Ivory Coast</option>
+            <option>Accra, Ghana</option>
+          </select>
+        </div>
+        <div class="search-row">
+          <input class="input" type="date" />
+          <input class="input" type="number" placeholder="Size (m³ or kg)" />
+        </div>
+        <button class="btn btn-success" onclick="goto('browse')">Search Available Space</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== FEATURES ====== -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2 class="section-title">Why Choose Charter Diaspora?</h2>
+      <div class="grid-4">
+        <div class="card feat">
+          <div class="feat-ico">💰</div>
+          <h3>Best Prices</h3>
+          <p>Share container space or book air cargo at competitive rates.</p>
+        </div>
+        <div class="card feat">
+          <div class="feat-ico">📍</div>
+          <h3>Real-Time Tracking</h3>
+          <p>GPS tracking for containers and flight updates for air cargo.</p>
+        </div>
+        <div class="card feat">
+          <div class="feat-ico">🛂</div>
+          <h3>Customs Made Easy</h3>
+          <p>Verified clearance agents and cost estimation tools.</p>
+        </div>
+        <div class="card feat">
+          <div class="feat-ico">💳</div>
+          <h3>Secure Payments</h3>
+          <p>Multiple payment methods including mobile money.</p>
+        </div>
+      </div>
+    </div>
   </section>
-</div>
 
-<!-- ================= Sign Up Page ================= -->
-<div id="signup-page" class="page hidden">
-  <section class="container auth">
-    <h2>Create Account</h2>
-    <form id="signup-form" onsubmit="return handleSignup(event)">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="signup-name" required />
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="signup-email" required />
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="signup-password" minlength="6" required />
-      </div>
-      <button class="btn btn-primary" type="submit">Sign Up</button>
-      <p class="hint">Already have an account? <a href="#" onclick="showPage('signin')">Sign in</a></p>
-    </form>
+  <!-- ====== RESOURCES (anchor only) ====== -->
+  <section id="resources" class="section slim">
+    <div class="container">
+      <h2 class="section-title">Resources</h2>
+      <p>Shipping calculator, customs guide, tracking, help center and more.</p>
+    </div>
   </section>
-</div>
-<script>
-// ================= Unified Navigation + Auth (drop-in) =================
 
-// Persisted "auth" state (demo)
-let currentUser = JSON.parse(localStorage.getItem('cds_user') || 'null');
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h4>Charter Diaspora</h4>
+        <p>Connecting diaspora communities worldwide with affordable, transparent shipping solutions.</p>
+      </div>
 
-// All page ids we navigate between (without the "-page" suffix)
-const PAGE_IDS = ['home','browse','list','track','dashboard','signin','signup'];
+      <div>
+        <h4>Services</h4>
+        <a href="index.html#sea">Sea Container Shipping</a>
+        <a href="index.html#air">Air Cargo Services</a>
+        <a href="index.html#customs">Customs Clearance</a>
+        <a href="index.html#final">Final Delivery</a>
+      </div>
 
-// Which pages require a signed-in user
-function isProtected(page) {
-  return ['dashboard','list','track'].includes(page);
-}
+      <div>
+        <h4>Resources</h4>
+        <a href="index.html#calculator">Shipping Calculator</a>
+        <a href="index.html#guide">Customs Guide</a>
+        <a href="index.html#track" data-goto="track">Track Cargo</a>
+        <a href="help.html">Help Center</a>
+      </div>
 
-// Toggle Sign In / Sign Out buttons in the navbar
-function setAuthUI() {
-  const inBtn  = document.getElementById('signin-btn');
-  const outBtn = document.getElementById('signout-btn');
-  if (inBtn)  inBtn.classList.toggle('hidden', !!currentUser);
-  if (outBtn) outBtn.classList.toggle('hidden', !currentUser);
-}
+      <div>
+        <h4>Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
 
-// Generic page switcher (works for all pages, including signin/signup)
-function showPage(id) {
-  // Hide all registered pages
-  PAGE_IDS.forEach(pid => {
-    const el = document.getElementById(`${pid}-page`);
-    if (el) el.classList.add('hidden');
-  });
+    <div class="footer-bottom">
+      © 2025 Charter Diaspora Shipping by Octopus Inc. All rights reserved.
+    </div>
+  </footer>
 
-  // Gate protected pages
-  if (isProtected(id) && !currentUser) {
-    const signEl = document.getElementById('signin-page');
-    if (signEl) signEl.classList.remove('hidden');
-    setAuthUI();
-    return;
-  }
-
-  // Show requested page if it exists
-  const target = document.getElementById(`${id}-page`);
-  if (target) target.classList.remove('hidden');
-
-  setAuthUI();
-}
-
-// Save/remove the demo user in localStorage
-function saveUser(userObj) {
-  currentUser = userObj;
-  localStorage.setItem('cds_user', JSON.stringify(userObj));
-}
-function logout() {
-  currentUser = null;
-  localStorage.removeItem('cds_user');
-  alert('Signed out.');
-  showPage('home');
-}
-
-// ---------- Demo Sign In / Sign Up handlers ----------
-// Replace these later with real API calls when you add a backend.
-
-function handleSignin(e) {
-  e.preventDefault();
-  const email = document.getElementById('signin-email')?.value.trim();
-  const pwd   = document.getElementById('signin-password')?.value || '';
-  if (!email || !/^\S+@\S+\.\S+$/.test(email)) { alert('Please enter a valid email.'); return false; }
-  if (pwd.length < 6) { alert('Password must be at least 6 characters.'); return false; }
-
-  saveUser({ email, name: email.split('@')[0] });
-  alert('Signed in as ' + email);
-  showPage('dashboard');
-  return false;
-}
-
-function handleSignup(e) {
-  e.preventDefault();
-  const name  = document.getElementById('signup-name')?.value.trim();
-  const email = document.getElementById('signup-email')?.value.trim();
-  const pwd   = document.getElementById('signup-password')?.value || '';
-  if (!name) { alert('Please enter your name.'); return false; }
-  if (!/^\S+@\S+\.\S+$/.test(email)) { alert('Please enter a valid email.'); return false; }
-  if (pwd.length < 6) { alert('Password must be at least 6 characters.'); return false; }
-
-  alert('Account created for ' + name + '. You can sign in now.');
-  showPage('signin');
-  return false;
-}
-
-// ---------- Small fix: filter buttons shouldn’t rely on implicit event ----------
-function filterListings(type, ev) {
-  // call your existing displayListings
-  if (typeof displayListings === 'function') displayListings(type);
-  // toggle button active state
-  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-  if (ev && ev.currentTarget) ev.currentTarget.classList.add('active');
-}
-
-// Initialize on load
-document.addEventListener('DOMContentLoaded', () => {
-  setAuthUI();
-  showPage('home'); // default landing page
-});
-</script>
-<script>
-  (function () {
-    const trigger = document.getElementById('menu-trigger');
-    const panel = document.getElementById('menu-panel');
-    if (!trigger || !panel) return;
-
-    function closePanel(){
-      panel.classList.remove('open');
-      trigger.setAttribute('aria-expanded','false');
-      panel.setAttribute('aria-hidden','true');
+  <script>
+    // --- toggle sea/air buttons (purely cosmetic here)
+    const seaBtn = document.getElementById('seaBtn');
+    const airBtn = document.getElementById('airBtn');
+    function setMode(mode){
+      const sea = mode === 'sea';
+      seaBtn.classList.toggle('active', sea);
+      seaBtn.setAttribute('aria-pressed', sea);
+      airBtn.classList.toggle('active', !sea);
+      airBtn.setAttribute('aria-pressed', !sea);
     }
-    function togglePanel(){
-      const willOpen = !panel.classList.contains('open');
-      if(willOpen){
-        panel.classList.add('open');
-        trigger.setAttribute('aria-expanded','true');
-        panel.setAttribute('aria-hidden','false');
-      }else{
-        closePanel();
+    seaBtn?.addEventListener('click', () => setMode('sea'));
+    airBtn?.addEventListener('click', () => setMode('air'));
+
+    // --- “More” popover menu behaviour
+    (function () {
+      const trigger = document.getElementById('menu-trigger');
+      const panel = document.getElementById('menu-panel');
+      if (!trigger || !panel) return;
+
+      function closePanel(){
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden','true');
+        trigger.setAttribute('aria-expanded','false');
       }
+      function openPanel(){
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden','false');
+        trigger.setAttribute('aria-expanded','true');
+      }
+      function togglePanel(e){
+        e.preventDefault();
+        panel.classList.contains('open') ? closePanel() : openPanel();
+      }
+
+      trigger.addEventListener('click', togglePanel);
+      document.addEventListener('click', (e)=>{
+        if (!panel.contains(e.target) && !trigger.contains(e.target)) closePanel();
+      });
+      document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closePanel(); });
+    })();
+
+    // --- simple router jump for demo anchors with data-goto
+    function goto(name){
+      const map = { browse:'#browse', list:'#list', dashboard:'#dashboard', track:'#track' };
+      const hash = map[name] || '#home';
+      window.location.hash = hash;
     }
-    trigger.addEventListener('click', (e)=>{ e.stopPropagation(); togglePanel(); });
-    document.addEventListener('click', (e)=>{
-      if(!panel.contains(e.target) && !trigger.contains(e.target)) closePanel();
+    document.querySelectorAll('[data-goto]').forEach(a => {
+      a.addEventListener('click', (e)=>{ e.preventDefault(); goto(a.dataset.goto); });
     });
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closePanel(); });
-  })();
-</script>
+
+    // tiny toast for demo login
+    function showToast(msg){
+      alert(msg);
+    }
+  </script>
 </body>
 </html>
