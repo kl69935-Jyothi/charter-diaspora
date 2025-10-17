@@ -10,6 +10,11 @@
             padding: 0;
             box-sizing: border-box;
         }
+/* Offset targets so they don't hide under the sticky navbar */
+#about, #contact, #terms, #privacy,
+#calculator, #customs, #help {
+  scroll-margin-top: 90px; /* adjust if your nav height is different */
+}
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -795,8 +800,85 @@
         .hidden {
   display: none;
 }
+/* ===== Auth buttons & panel visibility ===== */
+#signin-page button,
+#signin-page input[type="submit"],
+#signup-page button,
+#signup-page input[type="submit"],
+.signin-btn {
+  background-color: #16a34a;
+  color: #fff !important;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+#signin-page button:hover,
+#signin-page input[type="submit"]:hover,
+#signup-page button:hover,
+#signup-page input[type="submit"]:hover,
+.signin-btn:hover {
+  background-color: #15803d;
+}
+
+/* Make the sign in/up card stand out */
+#signin-page .container.auth,
+#signup-page .container.auth {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  max-width: 480px;
+  margin: 32px auto;
+}
+/* Navbar auth pill: make it visible */
+#signin-btn,
+#signout-btn {
+  background: #16a34a;          /* green pill */
+  color: #ffffff !important;     /* white text */
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+#signin-btn:hover,
+#signout-btn:hover {
+  background: #15803d;
+}
+
+/* If your nav link styles are overriding the color, neutralize them */
+nav a#signin-btn,
+nav a#signout-btn {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
     </style>
 </head>
+<script>
+  // Smooth-scroll to the hash target (after page switch)
+  function scrollToHash() {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const el = document.querySelector(hash);
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  // Wrap the existing showPage so it also scrolls when a hash is set
+  const _origShowPage = window.showPage;
+  window.showPage = function(id) {
+    _origShowPage(id);
+    scrollToHash();
+  };
+
+  // Handle back/forward when only the hash changes
+  window.addEventListener('hashchange', scrollToHash);
+</script>
 <body>
     <!-- Navigation -->
     <nav>
@@ -805,19 +887,26 @@
                 🚢 Charter Diaspora Shipping
             </div>
             <div class="nav-links">
+                <!-- Section links (scroll on the same page) -->
+            <a href="#home" onclick="showPage('home')">Home</a>
+            <a href="#features">Services</a>
+            <a href="#resources">Resources</a>
+            <a href="#company">Company</a>
+            <a href="#contact">Contact</a>
+              <!-- App pages (keep or hide as you wish) -->
                 <a href="#" onclick="showPage('browse')">Browse Shipping</a>
                 <a href="#" onclick="showPage('list')">List Space</a>
                 <a href="#" onclick="showPage('dashboard')">Dashboard</a>
                 <a href="#" onclick="showPage('track')">Track Cargo</a>
-               <a href="#" class="btn btn-primary" id="signin-btn" onclick="showPage('signin')">Sign In</a>
-  <a href="#" class="btn btn-primary hidden" id="signout-btn" onclick="logout()">Sign Out</a>
+                <a href="#" class="btn btn-primary" id="signin-btn" onclick="showPage('signin')">Sign In</a>
+                <a href="#" class="btn btn-primary hidden" id="signout-btn" onclick="logout()">Sign Out</a>
 </div>
             </div>
         </div>
     </nav>
 
     <!-- Home Page -->
-    <div id="home-page">
+    <div id="home">
         <!-- Hero Section -->
         <section class="hero">
             <div class="container">
@@ -862,7 +951,7 @@
         </section>
 
         <!-- Features Section -->
-        <section class="features">
+        <section id="features" class="features">
             <div class="container">
                 <h2>Why Choose Charter Diaspora?</h2>
                 <div class="features-grid">
@@ -1439,30 +1528,51 @@
                 </div>
                 <div class="footer-section">
                     <h4>Services</h4>
-                    <a href="#">Sea Container Shipping</a>
-                    <a href="#">Air Cargo Services</a>
-                    <a href="#">Customs Clearance</a>
-                    <a href="#">Final Delivery</a>
+                    <a href="#sea" onclick="showPage('browse'); return false;">Sea Container Shipping</a>
+                    <a href="#air" onclick="showPage('browse'); return false;">Air Cargo Services</a>
+                    <a href="#customs" onclick="showPage('browse'); return false;">Customs Clearance</a>
+                    <a href="#final" onclick="showPage('browse'); return false;">Final Delivery</a>
                 </div>
                 <div class="footer-section">
                     <h4>Resources</h4>
-                    <a href="#">Shipping Calculator</a>
-                    <a href="#">Customs Guide</a>
-                    <a href="#">Track Cargo</a>
-                    <a href="#">Help Center</a>
+                    <a href="#calculator" onclick="showPage('home'); return false;">Shipping Calculator</a>
+                    <a href="#guide" onclick="showPage('home'); return false;">Customs Guide</a>
+                    <a href="#track" onclick="showPage('track'); return false;">Track Cargo</a>
+                    <a href="#help" onclick="showPage('home'); return false;">Help Center</a>
                 </div>
                 <div class="footer-section">
                     <h4>Company</h4>
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Privacy Policy</a>
+                    <a href="#about" onclick="showPage('home'); return false;">About Us</a>
+                    <a href="#contact" onclick="showPage('home'); return false;">Contact</a>
+                    <a href="#terms" onclick="showPage('home'); return false;">Terms of Service</a>
+                    <a href="#privacy" onclick="showPage('home'); return false;">Privacy Policy</a>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Charter Diaspora Shipping by Octopus Inc. All rights reserved. Confidential & Proprietary.</p>
             </div>
         </div>
+        <!-- ========= Company Sections (inside #home-page) ========= -->
+<section id="about" class="container" style="max-width:900px; margin:60px auto;">
+  <h2>About Us</h2>
+  <p>We help diaspora communities move goods reliably by sea and air. Transparent pricing, verified agents, and real-time updates.</p>
+</section>
+
+<section id="contact" class="container" style="max-width:900px; margin:60px auto;">
+  <h2>Contact</h2>
+  <p>Email: support@charterdiaspora.example • WhatsApp: +1-555-123-4567</p>
+</section>
+
+<section id="terms" class="container" style="max-width:900px; margin:60px auto;">
+  <h2>Terms of Service</h2>
+  <p>Summary of your terms… (replace with your real content).</p>
+</section>
+
+<section id="privacy" class="container" style="max-width:900px; margin:60px auto;">
+  <h2>Privacy Policy</h2>
+  <p>How we handle data… (replace with your real content).</p>
+</section>
+
     </footer>
 
     <script>
