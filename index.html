@@ -51,6 +51,32 @@
                 <a href="#" class="btn btn-primary hidden" id="signout-btn" onclick="logout()">Sign Out</a>
 </div>
             </div>
+            <!-- Profile / More menu trigger -->
+<div class="menu-wrapper">
+  <button class="menu-trigger" id="menu-trigger" aria-haspopup="true" aria-expanded="false">
+    <span class="menu-icon">☰</span>
+    <span class="menu-avatar">•</span>
+  </button>
+
+  <!-- Floating menu panel -->
+  <div class="menu-panel" id="menu-panel" role="menu" aria-hidden="true">
+    <div class="menu-section">
+      <a class="menu-item" href="help.html">Help Center</a>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">Hosting</div>
+      <a class="menu-item" href="#become-host" onclick="alert('Demo: Become a host'); return false;">Become a host</a>
+      <a class="menu-item" href="#find-cohost" onclick="alert('Demo: Find a co-host'); return false;">Find a co-host</a>
+      <a class="menu-item" href="#gift-cards" onclick="alert('Demo: Gift cards'); return false;">Gift cards</a>
+    </div>
+
+    <div class="menu-section">
+      <a class="menu-item" href="#login" onclick="showPage('signin'); return false;">Log in or sign up</a>
+    </div>
+  </div>
+</div>
+
         </div>
     </nav>
 
@@ -1190,6 +1216,34 @@ document.addEventListener('DOMContentLoaded', () => {
   setAuthUI();
   showPage('home'); // default landing page
 });
+</script>
+<script>
+  (function () {
+    const trigger = document.getElementById('menu-trigger');
+    const panel = document.getElementById('menu-panel');
+    if (!trigger || !panel) return;
+
+    function closePanel(){
+      panel.classList.remove('open');
+      trigger.setAttribute('aria-expanded','false');
+      panel.setAttribute('aria-hidden','true');
+    }
+    function togglePanel(){
+      const willOpen = !panel.classList.contains('open');
+      if(willOpen){
+        panel.classList.add('open');
+        trigger.setAttribute('aria-expanded','true');
+        panel.setAttribute('aria-hidden','false');
+      }else{
+        closePanel();
+      }
+    }
+    trigger.addEventListener('click', (e)=>{ e.stopPropagation(); togglePanel(); });
+    document.addEventListener('click', (e)=>{
+      if(!panel.contains(e.target) && !trigger.contains(e.target)) closePanel();
+    });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closePanel(); });
+  })();
 </script>
 </body>
 </html>
